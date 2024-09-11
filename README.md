@@ -88,12 +88,21 @@ The requirements for the `run_tests` job to be executed are:
 <details>
 <summary>Click to show details about </summary>
 
-### Custom Docker Image
+### Python / Pip must be available:
 
 By default, GitLab Managed Runners use a Ruby image to launch containers. However, you can override the default image by specifying a custom Docker image for specific jobs. This can be done by adding the `image` attribute within the job definition in the `.gitlab-ci.yml` file.
 
+![image](https://github.com/user-attachments/assets/74a9456f-76ce-4282-bf69-6a0185f47729)
+
 To use a custom Python image, go to the following website to find a suitable image:
 [Docker Hub - Python Images](https://hub.docker.com/_/python)
+
+### Make command must be available:
+
+This command installs the make package, a tool used to automate project compilation. If the project or CI pipeline depends on make to compile code or run tests, it needs to be installed in the environment.
+
+![image](https://github.com/user-attachments/assets/a1b363ab-65f8-4d2e-a4bb-61a9d09c2884)
+
 
 ### Explanation of Components:
 
@@ -165,6 +174,21 @@ In GitLab Pipelines, you can view the jobs that have been executed in each stage
 
 </details>
 
+
+## Create JOB: build_image
+
+The requirements for the `build_image` job to be executed are:
+
+- **Docker Image must be available**: With Docker installed, we can generate an image of the app using a build. This defines the environment necessary for the application to run, including the base system, dependencies and build instructions.
+- **Docker Service Daemon must be available**: O Docker Daemon é um serviço em segundo plano responsável por gerenciar todas as operações no Docker, permitindo que o job execute comandos Docker dentro do contêiner. Ele lida com a criação, execução e gerenciamento de contêineres, imagens, volumes e redes. O Docker Daemon escuta as solicitações da API do Docker e também pode se comunicar com outros daemons para gerenciar serviços Docker em clusters, garantindo o funcionamento eficiente de todos os processos envolvidos na execução dos contêineres.
+- **Definição do diretório para os certificados**: Para garantir a comunicação segura entre o Docker client e o Docker daemon, os certificados TLS (Transport Layer Security) são usados. Esses certificados autenticam e criptografam a conexão, protegendo contra acessos não autorizados.
+- **Login in Docker Hub**: Authenticate to Docker Hub using credentials with the docker login command.
+- **Build Docker Image**: Create a Docker image from a Dockerfile using the docker build command.
+- **Push Docker Image in Docker Hub**: Push the created image to the repository in Docker Hub with the docker push command.
+
+ ### Docker Image must be available:
+ ### Docker Service Daemon must be available
+ ### Docker Service Daemon must be available
 
 ## Screenshot
 
