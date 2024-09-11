@@ -179,16 +179,91 @@ In GitLab Pipelines, you can view the jobs that have been executed in each stage
 
 The requirements for the `build_image` job to be executed are:
 
-- **Docker Image must be available**: With Docker installed, we can generate an image of the app using a build. This defines the environment necessary for the application to run, including the base system, dependencies and build instructions.
-- **Docker Service Daemon must be available**: O Docker Daemon é um serviço em segundo plano responsável por gerenciar todas as operações no Docker, permitindo que o job execute comandos Docker dentro do contêiner. Ele lida com a criação, execução e gerenciamento de contêineres, imagens, volumes e redes. O Docker Daemon escuta as solicitações da API do Docker e também pode se comunicar com outros daemons para gerenciar serviços Docker em clusters, garantindo o funcionamento eficiente de todos os processos envolvidos na execução dos contêineres.
-- **Definição do diretório para os certificados**: Para garantir a comunicação segura entre o Docker client e o Docker daemon, os certificados TLS (Transport Layer Security) são usados. Esses certificados autenticam e criptografam a conexão, protegendo contra acessos não autorizados.
+- **Docker Image must be available**: With Docker installed, we can generate an image of the app using a build. 
+- **Docker Service Daemon must be available**: The Docker Daemon is a background service responsible for managing all Docker operations, allowing the job to execute Docker commands within the container.
+- **Definition of the directory for certificates**: To ensure secure communication between the Docker client and the Docker daemon, TLS (Transport Layer Security) certificates are used. 
 - **Login in Docker Hub**: Authenticate to Docker Hub using credentials with the docker login command.
 - **Build Docker Image**: Create a Docker image from a Dockerfile using the docker build command.
 - **Push Docker Image in Docker Hub**: Push the created image to the repository in Docker Hub with the docker push command.
 
- ### Docker Image must be available:
- ### Docker Service Daemon must be available
- ### Docker Service Daemon must be available
+### Docker Image must be available:
+This defines the environment necessary for the application to run, including the base system, dependencies and build instructions.
+
+![image](https://github.com/user-attachments/assets/ac22cfcf-3afb-4619-acc5-4e5d900f36c2)
+
+
+### Docker Service Daemon must be available
+Deals with creating, running, and managing containers, images, volumes, and networks. The Docker Daemon listens to Docker API requests and can also communicate with other daemons to manage Docker services across clusters, ensuring the efficient functioning of all processes involved in running containers.
+
+![image](https://github.com/user-attachments/assets/bbe638d0-f251-43b1-ae25-3fd41f51a17d)
+
+
+
+### Definition of the directory for certificates
+These certificates authenticate and encrypt the connection, protecting against unauthorized access.
+
+![image](https://github.com/user-attachments/assets/586c3347-1632-422d-a856-9ebefe8062e5)
+
+   
+### Login in Docker Hub
+
+To authenticate to Docker Hub, use the docker login command. You will need your Docker Hub credentials (username and password).
+
+We will use environment variables to set up the credentials and utilize them within the job, similarly to how a .env file operates.
+
+![image](https://github.com/user-attachments/assets/5ee55199-23ec-437b-b487-c2c5fc6930df)
+
+We need to configure these credentials  `$REGISTRY_USER` and `$REGISTRY_PASS` in GitLab. Navigate to the settings menu and select CI/CD.
+
+![image](https://github.com/user-attachments/assets/12ee8802-f5d2-43bd-b4fd-1d4c09ce3006)
+
+![image](https://github.com/user-attachments/assets/8cdc613f-7b45-484c-a874-29eb22353a49)
+
+![image](https://github.com/user-attachments/assets/f9f40636-96dd-4fe4-844f-85721865737c)
+
+
+This way, Gitlab Runner will be able to log into your Docker repository before you perform the push.
+
+
+If you do not have a repository created, follow the steps below
+
+#### 1. Log In to Docker Hub
+
+1. **Open Docker Hub**: Visit [hub.docker.com](https://hub.docker.com/).
+2. **Sign In**: Click the "Sign In" button at the top-right corner and enter your Docker Hub credentials.
+
+#### 2. Create a Private Repository
+
+1. **Navigate to Repositories**: Go to your Docker Hub dashboard after logging in.
+2. **Create Repository**:
+   - Click on the “Create Repository” button.
+   - Fill in the repository details:
+     - **Name**: Enter the name for your repository.
+     - **Visibility**: Select "Private" to keep the repository accessible only to you and users you grant access.
+     - **Description**: (Optional) Provide a description for your repository.
+   - Click the “Create” button to finalize the creation.
+  
+
+![image](https://github.com/user-attachments/assets/456a6021-839f-4c32-b23f-e7ed6c285db7)
+
+
+
+
+
+### Build Docker Image
+
+To build a Docker image from a Dockerfile, use the docker build command. Make sure you are in the directory where your Dockerfile is located.
+
+![image](https://github.com/user-attachments/assets/8a722939-db8f-4bb3-9d5e-ed130a128e3c)
+
+
+### Push Docker Image
+
+Once your Docker image is built, you can push it to Docker Hub using the docker push command.
+
+### Explanation of Components:
+
+### Job Execution Steps: build_image
 
 ## Screenshot
 
