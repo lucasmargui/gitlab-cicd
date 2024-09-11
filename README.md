@@ -312,14 +312,116 @@ The requirements for the `deploy` job to be executed are:
 
 
 - **Create a deployment server**: Create a virtual server (droplet) in the cloud that will be used to host and run your application.
+
+![image](https://github.com/user-attachments/assets/c2cd5a7f-3876-43c5-9aff-8d07b8c8a2b6)
+
+  
 - **Create an ssh key**: Generate an SSH key to enable secure remote connection to the server to remotely connect to the server.
+
+![image](https://github.com/user-attachments/assets/4788b9fd-a369-4c82-91c0-b4724ffbe21c)
+
+![image](https://github.com/user-attachments/assets/11da7145-b200-4054-a411-039bcbcecf4c)
+
+
+
 - **Connect to server created**: Establish a connection to the newly created server using the SSH key.
+
+When setting up a remote server on DigitalOcean, an SSH key is required for access. Use a previously generated public `id_rsa.pub` ssh key
+
+![image](https://github.com/user-attachments/assets/e5674a2a-35ef-4118-85b1-7a6fa39ea1a9)
+
+![image](https://github.com/user-attachments/assets/7e371a7d-ee41-4d34-91e9-b3077c4a0793)
+
+![image](https://github.com/user-attachments/assets/eb74ce11-d6b4-4b9a-8c97-55a7f06b9a63)
+
+Now, all servers created can be accessed via this public key,
+  
 - **Install docker on the server**: Install Docker on the server to manage containers and images.
-- **Add ssh private key in gitlab**: Add the SSH key to GitLab to allow the GitLab pipeline to connect to the server for executing tasks. 
+  
+To establish the connection, we will use SSH and authenticate with the private ssh key  `id_rsa`.
+
+```
+ssh -i C:/Users/YourUser/.ssh/id_rsa root@"ip_droplet_created"
+```
+
+Once connected, you need to install Docker on the remote machine.
+
+![image](https://github.com/user-attachments/assets/2459d0d2-b602-4281-aa05-b37c80eec6c1)
+
+The remote server now has Docker installed.
+
+- **Add ssh private key in gitlab**: Add the SSH key to GitLab to allow the GitLab pipeline to connect to the server for executing tasks.
+
+GitLab Runner requires SSH access within a container to connect to the remote server.
+
+To facilitate this, we need the private key available in GitLab to establish the connection to the server.
+
+Similarly to how we set environment variables for Docker Hub, we can create secret variables in GitLab for the private key.
+
+![image](https://github.com/user-attachments/assets/e0405c25-8e7c-4b93-a00a-c47431a7ea18)
+
+
+- **Connect job to the server droplet**: Ensure that the GitLab Runner container has SSH access configured.
+
+  ![image](https://github.com/user-attachments/assets/5586c198-9871-413e-98e4-d89bb70ab555)
+
+Stricthostkeychecking is to avoid manual check by pressing enter that appears when connecting to the server
+  
 - **With the job connected to the server droplet**: run the docker command to log in and pull image.
+
+So in the same way that previously we needed to be logged in to perform a push image to registry, in the deploy stage we need to be logged in to perform a pull image
+
+![image](https://github.com/user-attachments/assets/7c190044-f58e-47c7-bf51-25a68fa0076d)
+
+
 - **With the job connected to the server droplet**: stop and remove any container using port 5000.
+
+Each time we need to establish a connection, we must stop and remove the container on port 5000, as multiple processes cannot share the same port. This ensures that a new container can be created on that port without conflicts.
+
+![image](https://github.com/user-attachments/assets/7fb9a83f-f520-44af-b147-11dff02721fc)
+
+  
 - **With the job connected to the server droplet**: run image in port 5000.
 
+  ![image](https://github.com/user-attachments/assets/444fedba-5a78-4140-8e30-088b62ffdf4f)
+
+To verify the application, access the IP address of the droplet on port 5000
+
+### Explanation of Content: 
+
+### 1. Step: Deploy
+This is the name of the deployment step in the pipeline. It is used to identify and organize different phases of the CI/CD process in your configuration file.
+
+### 2. Stage: Deploy
+Specifies the stage of the pipeline at which this step should be executed. In the context of CI/CD, pipelines are divided into various stages, such as build, test, and deploy. Here, "deploy" indicates that this step is part of the deployment stage.
+
+### 3. before_script
+This section defines commands that will be executed before the main script of the deployment step. It is used to prepare the environment for deployment.
+
+### 4. Command: `chmod 400 $SSH_KEY`
+This command changes the permissions of the SSH key file (`$SSH_KEY`) so that only the owner can read it. This is important for securing the key and preventing unauthorized access by other users.
+
+### 5. script
+Defines the commands that will be executed as part of the deployment step. These commands are responsible for carrying out the actual deployment.
+
+### 6. Command: `ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@161.35.223.117 " ... "`
+This command establishes an SSH connection to the remote server (`root@161.35.223.117`) using the provided SSH key (`$SSH_KEY`). The `-o StrictHostKeyChecking=no` parameter disables host key verification to prevent deployment failures if the remote host is not already in the known hosts list.
+
+### 7. Command: `docker login -u $REGISTRY_USER -p $REGISTRY_PASS`
+Logs in to the Docker registry using the provided credentials (`$REGISTRY_USER` and `$REGISTRY_PASS`). This step is necessary to authenticate and access the Docker image registry.
+
+### 8. Command: `docker ps -aq | xargs docker stop | xargs docker rm`
+These commands are used to stop and remove all running Docker containers on the server. The process is as follows:
+
+- `docker ps -aq`: Lists all container IDs.
+- `xargs docker stop`: Stops all listed containers.
+- `xargs docker rm`: Removes all stopped containers.
+
+### 9. Command: `docker run -d -p 5000:5000 $IMAGE_NAME:$IMAGE_TAG`
+Runs a new Docker container with the specified image (`$IMAGE_NAME:$IMAGE_TAG`). The parameters are:
+
+- `-d`: Runs the container in detached mode (in the background).
+- `-p 5000:5000`: Maps port 5000 of the container to port 5000 on the host, allowing access to the service running in the container.
 
 ## Screenshot
 
