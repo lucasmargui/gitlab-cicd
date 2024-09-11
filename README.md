@@ -74,22 +74,9 @@ This is the default pipeline configuration file name for GitLab CI/CD. GitLab CI
 </details>
 
 
-## JOBS
-
-In the context of CI/CD (Continuous Integration/Continuous Delivery), jobs in a pipeline represent individual steps and automated tasks that are executed sequentially or in parallel to build, test, and deploy code.
-
-<details>
-<summary>Click to show details about </summary>
-
-GitLab Runners are responsible for executing jobs defined in a GitLab CI/CD pipeline. They can be installed in various development environments.
-Runners are configured to use different executors, which define the environment where jobs will run.
-GitLab Runners can execute jobs inside Docker containers, providing isolation and flexibility.
-Docker-Based Jobs
-
-</details>
-
-
 ## Create JOB: run_tests
+
+In the context of CI/CD (Continuous Integration/Continuous Delivery), jobs in a pipeline represent individual steps and automated tasks that are executed sequentially or in parallel
 
 The requirements for the `run_tests` job to be executed are:
 
