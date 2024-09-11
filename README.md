@@ -310,21 +310,37 @@ The main commands executed by the job:
 
 The requirements for the `deploy` job to be executed are:
 
-
 - **Create a deployment server**: Create a virtual server (droplet) in the cloud that will be used to host and run your application.
+- **Create an ssh key**: Generate an SSH key to enable secure remote connection to the server to remotely connect to the server.
+- **Connect to server created**: Establish a connection to the newly created server using the SSH key.
+- **Install docker on the server**: Install Docker on the server to manage containers and images.
+- **Add ssh private key in gitlab**: Add the SSH key to GitLab to allow the GitLab pipeline to connect to the server for executing tasks.
+- **Connect job to the server droplet**: Ensure that the GitLab Runner container has SSH access configured.
+- **With the job connected to the server droplet**: run the docker command to log in and pull image.
+- **With the job connected to the server droplet**: stop and remove any container using port 5000.
+- **With the job connected to the server droplet**: run image in port 5000.
+
+
+
+
+### Create a deployment server:
+
+Set up a virtual server (droplet) in the cloud to host and run your application.
 
 ![image](https://github.com/user-attachments/assets/c2cd5a7f-3876-43c5-9aff-8d07b8c8a2b6)
 
+
   
-- **Create an ssh key**: Generate an SSH key to enable secure remote connection to the server to remotely connect to the server.
+### Create an ssh key:
+
+Generate an SSH key to securely connect to the server remotely.
 
 ![image](https://github.com/user-attachments/assets/4788b9fd-a369-4c82-91c0-b4724ffbe21c)
 
 ![image](https://github.com/user-attachments/assets/11da7145-b200-4054-a411-039bcbcecf4c)
 
 
-
-- **Connect to server created**: Establish a connection to the newly created server using the SSH key.
+### Connect to server created: 
 
 When setting up a remote server on DigitalOcean, an SSH key is required for access. Use a previously generated public `id_rsa.pub` ssh key
 
@@ -336,7 +352,7 @@ When setting up a remote server on DigitalOcean, an SSH key is required for acce
 
 Now, all servers created can be accessed via this public key,
   
-- **Install docker on the server**: Install Docker on the server to manage containers and images.
+### Install docker on the server 
   
 To establish the connection, we will use SSH and authenticate with the private ssh key  `id_rsa`.
 
@@ -350,7 +366,7 @@ Once connected, you need to install Docker on the remote machine.
 
 The remote server now has Docker installed.
 
-- **Add ssh private key in gitlab**: Add the SSH key to GitLab to allow the GitLab pipeline to connect to the server for executing tasks.
+### Add ssh private key in gitlab:
 
 GitLab Runner requires SSH access within a container to connect to the remote server.
 
@@ -361,29 +377,28 @@ Similarly to how we set environment variables for Docker Hub, we can create secr
 ![image](https://github.com/user-attachments/assets/e0405c25-8e7c-4b93-a00a-c47431a7ea18)
 
 
-- **Connect job to the server droplet**: Ensure that the GitLab Runner container has SSH access configured.
+### Connect job to the server droplet
 
   ![image](https://github.com/user-attachments/assets/5586c198-9871-413e-98e4-d89bb70ab555)
 
 Stricthostkeychecking is to avoid manual check by pressing enter that appears when connecting to the server
   
-- **With the job connected to the server droplet**: run the docker command to log in and pull image.
-
-So in the same way that previously we needed to be logged in to perform a push image to registry, in the deploy stage we need to be logged in to perform a pull image
+### With the job connected to the server droplet**: run the docker command to log in and pull image.
 
 ![image](https://github.com/user-attachments/assets/7c190044-f58e-47c7-bf51-25a68fa0076d)
 
+So in the same way that previously we needed to be logged in to perform a push image to registry, in the deploy stage we need to be logged in to perform a pull image
 
-- **With the job connected to the server droplet**: stop and remove any container using port 5000.
 
-Each time we need to establish a connection, we must stop and remove the container on port 5000, as multiple processes cannot share the same port. This ensures that a new container can be created on that port without conflicts.
+### With the job connected to the server droplet**: stop and remove any container using port 5000.
 
 ![image](https://github.com/user-attachments/assets/7fb9a83f-f520-44af-b147-11dff02721fc)
 
+Each time we need to establish a connection, we must stop and remove the container on port 5000, as multiple processes cannot share the same port. This ensures that a new container can be created on that port without conflicts.
   
-- **With the job connected to the server droplet**: run image in port 5000.
+### With the job connected to the server droplet**: run image in port 5000.
 
-  ![image](https://github.com/user-attachments/assets/444fedba-5a78-4140-8e30-088b62ffdf4f)
+![image](https://github.com/user-attachments/assets/444fedba-5a78-4140-8e30-088b62ffdf4f)
 
 To verify the application, access the IP address of the droplet on port 5000
 
@@ -404,8 +419,8 @@ This command changes the permissions of the SSH key file (`$SSH_KEY`) so that on
 ### 5. script
 Defines the commands that will be executed as part of the deployment step. These commands are responsible for carrying out the actual deployment.
 
-### 6. Command: `ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@161.35.223.117 " ... "`
-This command establishes an SSH connection to the remote server (`root@161.35.223.117`) using the provided SSH key (`$SSH_KEY`). The `-o StrictHostKeyChecking=no` parameter disables host key verification to prevent deployment failures if the remote host is not already in the known hosts list.
+### 6. Command: `ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@ip_do_droplet " ... "`
+This command establishes an SSH connection to the remote server (`root@ip_do_droplet `) using the provided SSH key (`$SSH_KEY`). The `-o StrictHostKeyChecking=no` parameter disables host key verification to prevent deployment failures if the remote host is not already in the known hosts list.
 
 ### 7. Command: `docker login -u $REGISTRY_USER -p $REGISTRY_PASS`
 Logs in to the Docker registry using the provided credentials (`$REGISTRY_USER` and `$REGISTRY_PASS`). This step is necessary to authenticate and access the Docker image registry.
