@@ -7,6 +7,9 @@ This repository contains a sample application in Python using Flask, intended to
 
 To clone the project, run the following command in the terminal:
 
+<details>
+<summary>Click to show details about </summary>
+
 ```
 git clone https://github.com/benc-uk/python-demoapp
 ```
@@ -50,12 +53,15 @@ To run the project's unit tests, the `make test` command will perform the follow
 
 ![image](https://github.com/user-attachments/assets/600b840f-994f-4fe0-812b-3aa69e114262)
 
+</details>
 
-## CREATE CI/CD PIPELINE
 
-### Pipeline será escrito em código:
- 
+## Create CI/CD Pipeline 
+
 Pipeline is a set of automated steps that help you build, test, and deploy your code. Instead of performing these steps manually, you write a pipeline that describes these steps as code.
+
+<details>
+<summary>Click to show details about </summary>
 
 ### create gitlab-ci.yml file
 
@@ -65,22 +71,35 @@ This is the default pipeline configuration file name for GitLab CI/CD. GitLab CI
 
 ![image](https://github.com/user-attachments/assets/997d52f6-21d8-4d65-a490-dcb3bc618bb2)
 
+</details>
+
+
 ## JOBS
 
 In the context of CI/CD (Continuous Integration/Continuous Delivery), jobs in a pipeline represent individual steps and automated tasks that are executed sequentially or in parallel to build, test, and deploy code.
+
+<details>
+<summary>Click to show details about </summary>
 
 GitLab Runners are responsible for executing jobs defined in a GitLab CI/CD pipeline. They can be installed in various development environments.
 Runners are configured to use different executors, which define the environment where jobs will run.
 GitLab Runners can execute jobs inside Docker containers, providing isolation and flexibility.
 Docker-Based Jobs
 
-## JOB run_tests
+</details>
+
+
+## Create JOB: run_tests
 
 The requirements for the `run_tests` job to be executed are:
 
-- **Make command must be available**: Just as done locally, we will use `make test` to perform the unit tests. For it to work correctly, the machine where the job will be executed must have Make installed.
-- **Pip must be available**: The code will install dependencies based on the `requirements.txt` file, therefore, `pip` must be installed in the environment.
 - **Python must be available**: With Python installed, the project's unit tests will be run using `pytest` in a virtual environment, created using the `make test` command.
+- **Pip must be available**: The code will install dependencies based on the `requirements.txt` file, therefore, `pip` must be installed in the environment.
+- **Make command must be available**: Just as done locally, we will use `make test` to perform the unit tests. For it to work correctly, the machine where the job will be executed must have Make installed.
+
+
+<details>
+<summary>Click to show details about </summary>
 
 ### Custom Docker Image
 
@@ -157,6 +176,7 @@ In GitLab Pipelines, you can view the jobs that have been executed in each stage
 
    ![image](https://github.com/user-attachments/assets/3b49218a-eff9-4d27-9d4e-cc3bd45b3d0c)
 
+</details>
 
 
 ## Screenshot
