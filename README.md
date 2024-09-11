@@ -306,6 +306,21 @@ The main commands executed by the job:
 
 </details>
 
+## Create JOB: deploy
+
+The requirements for the `deploy` job to be executed are:
+
+
+- **Create a deployment server**: Create a virtual server (droplet) in the cloud that will be used to host and run your application.
+- **Create an ssh key**: Generate an SSH key to enable secure remote connection to the server to remotely connect to the server.
+- **Connect to server created**: Establish a connection to the newly created server using the SSH key.
+- **Install docker on the server**: Install Docker on the server to manage containers and images.
+- **Add ssh private key in gitlab**: Add the SSH key to GitLab to allow the GitLab pipeline to connect to the server for executing tasks. 
+- **With the job connected to the server droplet**: run the docker command to log in and pull image.
+- **With the job connected to the server droplet**: stop and remove any container using port 5000.
+- **With the job connected to the server droplet**: run image in port 5000.
+
+
 ## Screenshot
 
 ![screen](https://user-images.githubusercontent.com/14982936/30533171-db17fccc-9c4f-11e7-8862-eb8c148fedea.png)
