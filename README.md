@@ -186,6 +186,9 @@ The requirements for the `build_image` job to be executed are:
 - **Build Docker Image**: Create a Docker image from a Dockerfile using the docker build command.
 - **Push Docker Image in Docker Hub**: Push the created image to the repository in Docker Hub with the docker push command.
 
+<details>
+<summary>Click to show details about </summary>
+
 ### Docker Image must be available:
 This defines the environment necessary for the application to run, including the base system, dependencies and build instructions.
 
@@ -248,8 +251,6 @@ If you do not have a repository created, follow the steps below
 
 
 
-
-
 ### Build Docker Image
 
 To build a Docker image from a Dockerfile, use the docker build command. Make sure you are in the directory where your Dockerfile is located.
@@ -257,13 +258,53 @@ To build a Docker image from a Dockerfile, use the docker build command. Make su
 ![image](https://github.com/user-attachments/assets/8a722939-db8f-4bb3-9d5e-ed130a128e3c)
 
 
+The pipeline uses the following dockerfile located in `build/Dockerfile` to create the docker image (the python version must be the same as that used in  Create JOB: run_tests )
+
+![image](https://github.com/user-attachments/assets/9abb031c-7a46-40c1-8792-3c5b6eb56db4)
+
+
+
 ### Push Docker Image
 
 Once your Docker image is built, you can push it to Docker Hub using the docker push command.
 
+Using a Docker container, the process will involve interacting with the Docker Daemon to authenticate to the Docker Registry, a Docker image repository similar to GitHub. The image will be built with the `docker build` command, specifying the Dockerfile located in the `build` directory, and the resulting image will be pushed to the repository using the `docker push` command
+
+
+![image](https://github.com/user-attachments/assets/48c2cc36-0e4a-4b3d-927e-7e2c6555a989)
+
+
 ### Explanation of Components:
 
+### `stage: build`
+Defines the stage in which the job will be executed. In this case, the job is in the "build" stage, which is responsible for building the Docker image.
+
+### `image: docker:27.2.1-cli`
+Specifies the Docker image to be used for executing commands. The `docker:27.2.1-cli` image provides the Docker CLI (command-line interface) version 27.2.1.
+
+### `services`
+Defines the services that will be used by the job. The `docker:27.2.1-dind` service is Docker-in-Docker, which allows Docker to be run inside a Docker container.
+
+### `variables`
+Defines environment variables that will be used during the execution of the job.
+- `DOCKER_TLS_CERTDIR: "/certs"`: Sets the directory where Docker TLS certificates will be stored. This is necessary for secure communication with Docker-in-Docker.
+
+### `before_script`
+Commands that are executed before the main script. In this case:
+- `docker login -u $REGISTRY_USER -p $REGISTRY_PASS`: Logs into the Docker registry using the `$REGISTRY_USER` and `$REGISTRY_PASS` environment variables for authentication. This is necessary to allow access to the registry where the image will be pushed.
+
+### `script`
+The main commands executed by the job:
+- `docker build --build-arg srcDir=src -t $IMAGE_NAME:$IMAGE_TAG -f build/Dockerfile .`: Builds the Docker image. Here, `--build-arg srcDir=src` sets a build argument (`srcDir`) for the Dockerfile, `-t $IMAGE_NAME:$IMAGE_TAG` sets the image tag (name and tag), and `-f build/Dockerfile` specifies the path to the Dockerfile.
+- `docker push $IMAGE_NAME:$IMAGE_TAG`: Pushes the built Docker image to the registry, using the previously defined tag.
+
+## Considerations
+- **Security**: Ensure that the `$REGISTRY_USER` and `$REGISTRY_PASS` variables are correctly configured and kept secure.
+- **Docker-in-Docker**: Using Docker-in-Docker may have security and performance implications. Evaluate if it is the best approach for your use case.
+
 ### Job Execution Steps: build_image
+
+</details>
 
 ## Screenshot
 
