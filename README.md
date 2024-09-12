@@ -276,6 +276,9 @@ Using a Docker container, the process will involve interacting with the Docker D
 
 ### Explanation of Components:
 
+![image](https://github.com/user-attachments/assets/8200fca5-748d-48d8-a353-59037236ff47)
+
+
 ### `stage: build`
 Defines the stage in which the job will be executed. In this case, the job is in the "build" stage, which is responsible for building the Docker image.
 
@@ -320,7 +323,8 @@ The requirements for the `deploy` job to be executed are:
 - **With the job connected to the server droplet**: stop and remove any container using port 5000.
 - **With the job connected to the server droplet**: run image in port 5000.
 
-
+<details>
+<summary>Click to show details about </summary>
 
 
 ### Create a deployment server:
@@ -385,24 +389,29 @@ Stricthostkeychecking is to avoid manual check by pressing enter that appears wh
   
 ### With the job connected to the server droplet**: run the docker command to log in and pull image.
 
-![image](https://github.com/user-attachments/assets/7c190044-f58e-47c7-bf51-25a68fa0076d)
+![image](https://github.com/user-attachments/assets/5e1bd6f2-5024-4015-b8aa-1a888db98706)
 
 So in the same way that previously we needed to be logged in to perform a push image to registry, in the deploy stage we need to be logged in to perform a pull image
 
 
 ### With the job connected to the server droplet**: stop and remove any container using port 5000.
 
-![image](https://github.com/user-attachments/assets/7fb9a83f-f520-44af-b147-11dff02721fc)
+![image](https://github.com/user-attachments/assets/f858c571-7894-4c5b-a60f-431d177b80e1)
+
 
 Each time we need to establish a connection, we must stop and remove the container on port 5000, as multiple processes cannot share the same port. This ensures that a new container can be created on that port without conflicts.
   
 ### With the job connected to the server droplet**: run image in port 5000.
 
-![image](https://github.com/user-attachments/assets/444fedba-5a78-4140-8e30-088b62ffdf4f)
+![image](https://github.com/user-attachments/assets/9650a09e-3b47-4114-b9d3-5ab6bd9d7e9a)
+
 
 To verify the application, access the IP address of the droplet on port 5000
 
 ### Explanation of Content: 
+
+![image](https://github.com/user-attachments/assets/b7b79e2e-3559-4a8e-8e21-ebe19967ff6a)
+
 
 ### 1. Step: Deploy
 This is the name of the deployment step in the pipeline. It is used to identify and organize different phases of the CI/CD process in your configuration file.
@@ -437,6 +446,8 @@ Runs a new Docker container with the specified image (`$IMAGE_NAME:$IMAGE_TAG`).
 
 - `-d`: Runs the container in detached mode (in the background).
 - `-p 5000:5000`: Maps port 5000 of the container to port 5000 on the host, allowing access to the service running in the container.
+
+</details>
 
 ## Screenshot
 
