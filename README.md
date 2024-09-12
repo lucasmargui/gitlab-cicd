@@ -6,12 +6,17 @@ This repository contains a sample application in Python using Flask, intended to
 ![image](https://github.com/user-attachments/assets/d2b18e26-9cdc-463e-8d03-b8dbccfee207)
 
 
-## Cloning the Repository
+## Commit code
 
-To clone the project, run the following command in the terminal:
+A fundamental part of the workflow in version control systems, allowing developers to securely and organizedly save their changes to the project history.
 
 <details>
 <summary>Click to show details about </summary>
+
+### Cloning the Repository
+
+To clone the project, run the following command in the terminal:
+
 
 ```
 git clone https://github.com/benc-uk/python-demoapp
@@ -58,6 +63,30 @@ To run the project's unit tests, the `make test` command will perform the follow
 
 </details>
 
+## Code push to gitlab
+
+GitLab is a complete DevOps platform that offers integrated tools for code versioning, CI/CD (Continuous Integration and Continuous Delivery), and collaboration between development teams. It allows you to manage the software lifecycle from planning to implementation and monitoring.
+
+<details>
+<summary>Click to show details about </summary>
+
+### Create a new project:
+
+After logging in, click on the "New project" or "Create a project" button.
+
+![image](https://github.com/user-attachments/assets/3e26d4b5-8899-46b0-940c-b393c13e3d09)
+
+Choose between "Create blank project", "Import project" (import from another platform), or "Create from template" (use a pre-defined template).
+
+Fill in the project name, optional description, and set permissions (public, internal, or private).
+
+![image](https://github.com/user-attachments/assets/d0a6eacd-ab9e-44e1-a20f-91dbdefacb25)
+
+Click on "Create project".
+
+![image](https://github.com/user-attachments/assets/49380de9-e96f-447b-9b2d-b78413772f6b)
+
+</details>
 
 ## Create CI/CD Pipeline 
 
