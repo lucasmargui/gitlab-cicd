@@ -3,6 +3,9 @@
 
 This repository contains a sample application in Python using Flask, intended to demonstrate the structure and development flow using Docker, Azure Web App and unit tests. The project uses a **Makefile** to automate common tasks such as testing, Docker image creation and cloud deployment.
 
+![image](https://github.com/user-attachments/assets/d2b18e26-9cdc-463e-8d03-b8dbccfee207)
+
+
 ## Cloning the Repository
 
 To clone the project, run the following command in the terminal:
