@@ -165,7 +165,7 @@ When you commit the file, GitLab will automatically trigger the execution of the
 
 ### Execution of the run_tests Job in the Pipeline:
 
-In GitLab Pipelines, you can view the jobs that have been executed in each stage of the pipeline. To do this:
+In GitLab Pipelines, you can view the jobs that have been executed in each stage of the pipeline.
 
 - Go to CI / CD > Pipelines in your project.
 - Click on the pipeline you want to inspect.
