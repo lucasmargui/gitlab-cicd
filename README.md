@@ -221,7 +221,7 @@ The requirements for the `build_image` job to be executed are:
 <details>
 <summary>Click to show details about </summary>
 
-### Docker Image must be available:
+### Docker Image must be available
 This defines the environment necessary for the application to run, including the base system, dependencies and build instructions.
 
 ![image](https://github.com/user-attachments/assets/ac22cfcf-3afb-4619-acc5-4e5d900f36c2)
@@ -262,12 +262,12 @@ This way, Gitlab Runner will be able to log into your Docker repository before y
 
 If you do not have a repository created, follow the steps below
 
-#### 1. Log In to Docker Hub
+#### 1. Log In to Docker Hub:
 
 1. **Open Docker Hub**: Visit [hub.docker.com](https://hub.docker.com/).
 2. **Sign In**: Click the "Sign In" button at the top-right corner and enter your Docker Hub credentials.
 
-#### 2. Create a Private Repository
+#### 2. Create a Private Repository:
 
 1. **Navigate to Repositories**: Go to your Docker Hub dashboard after logging in.
 2. **Create Repository**:
