@@ -259,8 +259,7 @@ We need to configure these credentials  `$REGISTRY_USER` and `$REGISTRY_PASS` in
 
 This way, Gitlab Runner will be able to log into your Docker repository before you perform the push.
 
-
-If you do not have a repository created, follow the steps below
+If you do not have a repository created, follow the steps below.
 
 #### 1. Log In to Docker Hub:
 
