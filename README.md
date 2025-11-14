@@ -1,5 +1,5 @@
 
-# GITLAB CICD
+# GITLAB CI/CD
 
 This repository contains a sample application in Python using Flask, intended to demonstrate the structure and development flow using Docker, Digital Ocean Deployment Server and unit tests. The project uses a **Makefile** to automate common tasks such as testing, Docker image creation and cloud deployment.
 
@@ -483,3 +483,4 @@ Runs a new Docker container with the specified image (`$IMAGE_NAME:$IMAGE_TAG`).
 ## Screenshot
 
 ![screen](https://user-images.githubusercontent.com/14982936/30533171-db17fccc-9c4f-11e7-8862-eb8c148fedea.png)
+
